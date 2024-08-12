@@ -1,0 +1,43 @@
+services:
+  mysql:
+    container_name: mysqladmoncfdi
+    image: mysql:lts-oraclelinux8
+    restart: always
+    networks:
+      - spider
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./init_schema/:/docker-entrypoint-initdb.d/
+      - ./data:/var/lib/mysql
+      - ./conf:/etc/mysql/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=${mypasswd}
+  cfdi_back:
+    container_name: admoncfdiback
+    build:
+      context: ./back
+    restart: always
+    networks:
+      - spider
+    ports:
+      - "9081:9081"
+    volumes:
+      - ./back/resources:/home/admon_cfdi/resources
+      - ./CfdiRecibidos/Procesados:/home/admon_cfdi/CfdiRecibidos/Procesados
+      - ./CfdiRecibidos/NoProcesados:/home/admon_cfdi/CfdiRecibidos/NoProcesados
+  cfdi_front:
+    container_name: admoncfdifront
+    build:
+      context: ./front
+    restart: always
+    networks:
+      - spider
+    ports:
+      - "9087:9087"
+    volumes:
+      - ./front/resources:/home/admon_cfdi/resources
+      - ./CfdiRecibidos/Procesados:/home/admon_cfdi/CfdiRecibidos/Procesados
+networks:
+  spider:
+    external: true
