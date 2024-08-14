@@ -41,6 +41,7 @@
 <br>
 
 ## :dart: Acerca
+Esta sencilla aplicación web te ayuda a ordenar y clasificar de manera conveniente los archivos pdf y xml de tus comprobantes Fiscales digitales por internet CFDI en la version 4.0.
 
 La manera más facil y rápida de implementar este proyecto es a  tráves Docker. Clonando el repositorio tendrás todo los requerimientos necesarios para poder administrar tus facturas.
 
