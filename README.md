@@ -1,98 +1,228 @@
-<div align="center" id="top"> 
+<div align="center">
 
-  <!-- <a href="https://opensource.netlify.app">Demo</a> -->
+# 📑 CFDI Admin — Docker Deployment
+
+**Containerized deployment of CFDI Admin, a modern full-stack platform for processing, organizing, and querying Mexican Digital Tax Receipts (CFDI 4.0).**
+
+[![Java 17](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)](https://openjdk.org/projects/jdk/17/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.x-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+
+<p align="center">
+  📚 Source code: <b><a href="https://github.com/jlpm-mex/cfdiadmon">cfdiadmon</a></b>
+</p>
+
+---
+
+<p align="center">
+  <a href="#about">About</a> •
+  <a href="#demo--screenshots">Screenshots</a> •
+  <a href="#deployment-architecture">Architecture</a> •
+  <a href="#repository-structure">Repository Structure</a> •
+  <a href="#features">Features</a> •
+  <a href="#getting-started">Installation</a> •
+  <a href="#configuration">Configuration</a> •
+  <a href="#roadmap">Roadmap</a> •
+  <a href="#license">License</a> •
+  <a href="#author">Author</a>
+</p>
+
 </div>
 
-<h1 align="center">Administrador de CFDI's 4.0</h1>
+---
 
-<p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/jlpm-mex/cfdiadmon_docker?color=56BEB8">
+## 📌 About
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/jlpm-mex/cfdiadmon_docker?color=56BEB8">
+This repository contains the **Docker deployment configuration** for CFDI Admin. It does not hold the application source code — the backend JAR is pulled from the releases of the [cfdiadmon](https://github.com/jlpm-mex/cfdiadmon) repository, and the frontend bundle is served by Caddy.
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/jlpm-mex/cfdiadmon_docker?color=56BEB8">
+**CFDI Admin** is a full-stack web application that automatically ingests, parses, validates, categorizes, and queries Mexican CFDI 4.0 files (XML + PDF pairs), making it easy for accounting teams to organize and search their electronic invoicing records.
 
-  <img alt="License" src="https://img.shields.io/github/license/jlpm-mex/cfdiadmon_docker?color=56BEB8">
+Cloning this repository gives you everything required to run the application with Docker Compose.
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/jlpm-mex/cfdiadmon_docker?color=56BEB8" /> -->
+---
 
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/jlpm-mex/cfdiadmon_docker?color=56BEB8" /> -->
+## 📸 Demo / Screenshots
 
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/jlpm-mex/cfdiadmon_docker?color=56BEB8" /> -->
-</p>
+<div align="center">
 
-<!-- Status -->
+### Main Dashboard (Ingestion & Processing)
+*Drag-and-drop ingestion, pending file inspection, and batch execution status.*
 
-<!-- <h4 align="center"> 
-	🚧  OpenSource 🚀 Under construction...  🚧
-</h4> 
+![Main Screen](./Pantalla_Principal.gif)
 
-<hr> -->
+<br/>
 
-<p align="center">
-  <a href="#dart-Acerca">Acerca</a> &#xa0; | &#xa0;
-  <a href="#rocket-tecnología">Tecnología</a> &#xa0; | &#xa0;
-  <a href="#white_check_mark-requerimientos">Requerimientos</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-inicio">Inicio</a> &#xa0; | &#xa0;
-  <a href="#memo-license">Licencia</a> &#xa0; | &#xa0;
-  <a href="https://github.com/jlpm-mex" target="_blank">Author</a>
-</p>
+### Document Search & Filter Explorer
+*Multi-criteria querying (by issue date, processing date, and supplier RFC) with instant data grid views.*
 
-<br>
+![Search Screen](./Pantalla_Busqueda.gif)
 
-## :dart: Acerca
-Esta sencilla aplicación web te ayuda a ordenar y clasificar de manera conveniente los archivos pdf y xml de tus comprobantes Fiscales digitales por internet CFDI en la version 4.0.
+</div>
 
-La manera más facil y rápida de implementar este proyecto es a  tráves Docker. Clonando el repositorio tendrás todo los requerimientos necesarios para poder administrar tus facturas.
+---
 
+## 🏗 Deployment Architecture
 
-## :rocket: Tecnología
+Three containers run on a shared external Docker network (`spider`):
 
-La siguientes herramientas fueran utilizadas en este proyecto:
-
-- :whale: [Docker](https://www.docker.com/)
-
-## :white_check_mark: Requerimientos
-
-Antes de iniciar :checkered_flag:, necesitas tener instalado :whale: [Docker](https://www.docker.com/).
-
-## :checkered_flag: Inicio
-
-```bash
-# Clonar este proyecto
-$ git clone https://github.com/jlpm-mex/cfdiadmon_docker
-
-# Accesar
-$ cd admon_cfdi
-
-# Crear la estructura de donde se leeran y almacenaran los cfdi's
-$ mkdir -p CfdiRecibidos/NoProcesados CfdiRecibidos/Procesados
-
-# Opcionalmente mejorar seguridad, cambiando en el archivo .env el valor de la varible myPasswd= 123456 <- cambiar por el valor deseado 
-$ nano .env
-
-# Si se mejoro la seguridad en el paso anterior, editar la variable spring.datasource.password=123456 del application.properties del back
-$ nano back/resources/application.properties 
-
-# Ejecutar docker compose para el levantamiento de los contenedores necesarios
-$ sudo docker compose up -d
+```
+                        ┌─────────────────────────────────────┐
+ Browser ──► cfdi_front │ Caddy (SPA + reverse proxy)         │
+   :9087 (HTTP)  ──────►│  /  ──► static dist/ (React SPA)    │
+   :9043 (HTTPS)         │  /api/* ──► cfdi_back:9081          │
+                        └──────────────┬──────────────────────┘
+                                       │
+                        ┌──────────────▼──────────────────────┐
+                        │ cfdi_back (Spring Boot, Java 17)    │
+                        │  :9081 REST API                     │
+                        │  • Scans CfdiRecibidos/ directories │
+                        │  • Parses XML / PDF pairs           │
+                        └──────────────┬──────────────────────┘
+                                       │
+                        ┌──────────────▼──────────────────────┐
+                        │ mysql (MySQL 8 LTS)                 │
+                        │  :3310 (host) → :3306 (container)   │
+                        │  Schema: admon_cfdi                 │
+                        └─────────────────────────────────────┘
 ```
 
-Abrir un navegador web, e ir a la ip del servidor en el puerto **9087**, o en caso de ser la misma computadora seria http://localhost:9087.
+| Container  | Role                                                        | Host Ports     |
+| :--------- | :---------------------------------------------------------- | :------------- |
+| `admoncfdifront` | Caddy serving the React SPA, proxies `/api/*` to the backend | `9087` (HTTP), `9043` (HTTPS, available for future TLS setup) |
+| `admoncfdiback`  | Spring Boot REST API (Java 17)                              | `9081` |
+| `mysqladmoncfdi` | MySQL 8 database with pre-initialized schema               | `3310` |
 
-![Pantalla Principal](Pantalla_Principal.png)
+---
 
-Dentro de la carpeta admon_cfdi existe una carpeta llamada **CfdiRecibidos**, la cuál contiene 2 carpetas mas llamadas **NoProcesados** y **Procesados**, para que la aplicación encuentre los cfdis y los procese, es necesario poner tanto el PDF como el XML a procesar en la carpeta **NoProcesados y estos se deben llamar de la misma manera**.
+## 📂 Repository Structure
 
-![alt text](Estructura_NoProcesados.png)
+```
+cfdiadmon_docker/
+├── back/
+│   ├── Dockerfile                     # Pulls the latest release JAR from cfdiadmon
+│   └── resources/application.properties  # Overridable Spring configuration
+├── front/
+│   ├── Dockerfile                     # Caddy image with the built SPA
+│   ├── dist/                          # Pre-built React bundle
+│   └── resources/Caddyfile            # Static serving + /api reverse proxy
+├── init_schema/
+│   └── schema.sql                     # Executed on first MySQL start
+├── data/                              # MySQL data volume (created at runtime)
+├── conf/                              # Optional MySQL config (mounted as /etc/mysql/my.cnf)
+├── CfdiRecibidos/                     # CFDI staging area (created at setup)
+│   ├── NoProcesados/                  # Drop XML + PDF pairs here
+│   └── Procesados/                    # Processed documents land here
+├── .env                               # Docker Compose env (database password)
+└── docker-compose.yml
+```
 
-## :memo: License
+---
 
-Este proyecto se encuentra bajo licencia del MIT. para mas detalles, vea el archivo de [LICENSE](LICENSE.md).
+## ✨ Features
 
+- 📁 **Automated CFDI Pairing & Organization:** Synchronizes and correlates XML and PDF companion files automatically.
+- 📅 **Dual-Date Search Indexing:** Filter receipts by both *Issue Date* and *System Processing Date*.
+- 🏢 **Issuer & Taxpayer Lookup:** Fast query capabilities by Issuer RFC and Legal Name.
+- 📤 **Drag & Drop Upload:** Seamless file upload interface with real-time upload progress bars.
+- ⚡ **Batch Directory Ingestion:** Automatic scanning and processing of files directly from the `CfdiRecibidos` staging directories.
 
-Made with :heart: by <a href="https://github.com/jlpm-mex" target="_blank">Jose Luis Pino</a>
+---
 
-&#xa0;
+## 🚀 Getting Started
 
-<a href="#top">Back to top</a>
+### Prerequisites
+
+- [Docker](https://www.docker.com/) with [Docker Compose](https://docs.docker.com/compose/)
+- [Git](https://git-scm.com/)
+
+### Deployment Steps
+
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/jlpm-mex/cfdiadmon_docker.git
+   cd cfdiadmon_docker
+   ```
+
+2. **Create the external Docker network used by the compose file:**
+   ```bash
+   docker network create spider
+   ```
+
+3. **Create the required staging directories:**
+   ```bash
+   mkdir -p CfdiRecibidos/NoProcesados CfdiRecibidos/Procesados conf
+   ```
+   > 💡 `conf/` is mounted as MySQL's `/etc/mysql/my.cnf`. It can be left empty (default configuration is used) or populated with a custom `my.cnf`.
+
+4. **Secure the database (recommended):**
+   - Edit `.env` and change the default password:
+     ```properties
+     mypasswd=your_strong_password
+     ```
+   - Update the matching value in `back/resources/application.properties`:
+     ```properties
+     spring.datasource.password=your_strong_password
+     ```
+
+5. **Start the stack:**
+   ```bash
+   docker compose up -d
+   ```
+
+6. **Access the application:**
+   Open your browser and navigate to:
+   ```text
+   http://localhost:9087
+   ```
+   (or `http://<server-ip>:9087` when deployed on a remote host)
+
+7. **Process your first batch:**
+   - Place matching XML and PDF files into `CfdiRecibidos/NoProcesados` (or upload them via the web UI drag & drop).
+   > ⚠️ **Note:** Each XML file must have a companion PDF with the exact same base filename to be paired correctly.
+
+   ![Expected folder structure](./Estructura_NoProcesados.png)
+
+   - Click the **Process** button in the dashboard. Processed documents are moved to `CfdiRecibidos/Procesados`.
+
+---
+
+## ⚙️ Configuration
+
+All runtime configuration lives in `back/resources/application.properties`, which is bind-mounted over the JAR's defaults:
+
+| Property | Description |
+| :--- | :--- |
+| `spring.datasource.url` / `.username` / `.password` | MySQL connection settings (must match `.env` password) |
+| `base.cfdi.path` / `unprocessed.path` / `processed.path` | Staging directories scanned for CFDI files |
+| `server.port` | Backend REST port (default `9081`) |
+| `upload.files.cross-origin` | Allowed origin for drag & drop uploads — set it to your deployment host when running remotely |
+| `spring.ai.openai.api-key` | Optional API key to enable AI features |
+
+---
+
+## 🗺 Roadmap
+
+- [ ] **Item-Level Concept Search:** Query and retrieve all CFDIs containing specific product/service concept descriptions.
+- [ ] **AI-Powered Analytics & NLQ:** Integrate Spring AI / LLM capabilities for Natural Language Querying and Business Intelligence over invoice data.
+- [ ] **Automated SAT Bulk Sync:** Direct integration with the SAT Web Service for automated bulk CFDI downloads.
+- [ ] **Standalone XML Ingestion:** Support for standalone XML processing with on-the-fly PDF generation when source PDFs are unavailable.
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE.md).
+
+---
+
+## 👤 Author
+
+Developed by **jlpm-mex**
+
+- GitHub: [@jlpm-mex](https://github.com/jlpm-mex)
+- Source Code: [cfdiadmon](https://github.com/jlpm-mex/cfdiadmon)
+- Docker Setup: [cfdiadmon_docker](https://github.com/jlpm-mex/cfdiadmon_docker)
