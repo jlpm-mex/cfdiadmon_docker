@@ -34,10 +34,10 @@ services:
     networks:
       - spider
     ports:
-      - "9087:9087"
-    volumes:
-      - ./front/resources:/home/admon_cfdi/resources
-      - ./CfdiRecibidos/Procesados:/home/admon_cfdi/CfdiRecibidos/Procesados
+      - "9087:80"
+      - "9043:443"
+    #volumes:
+    #  - ./CfdiRecibidos/Procesados:/home/admon_cfdi/CfdiRecibidos/Procesados
 networks:
   spider:
     external: true

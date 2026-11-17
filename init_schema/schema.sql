@@ -154,11 +154,12 @@ DROP TABLE IF EXISTS `ta_proveedor`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ta_proveedor` (
   `fiid` int NOT NULL AUTO_INCREMENT,
-  `fcnombre` varchar(200) DEFAULT NULL,
-  `fcrfc` varchar(18) NOT NULL,
+  `fcnombre` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `fcrfc` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `fcRegimenFiscal` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`fiid`),
   UNIQUE KEY `fcrfc_UNIQUE` (`fcrfc`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 377 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -171,3 +172,49 @@ CREATE TABLE `ta_proveedor` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-08-07 10:29:09
+
+ALTER TABLE admon_cfdi.ta_cfdi_recibidos MODIFY COLUMN fdtotal DECIMAL(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_items_compra MODIFY COLUMN fdCantidad DECIMAL(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_items_compra MODIFY COLUMN fdPrecioUnitario DECIMAL(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_items_compra ADD fdImporte DECIMAL(16,6) NOT NULL;
+ALTER TABLE admon_cfdi.ta_items_compra ADD fdDescuento decimal(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_pago MODIFY COLUMN fdTotal DECIMAL(16,6) NULL;
+
+ALTER TABLE admon_cfdi.ta_pago_items MODIFY COLUMN fdMonto DECIMAL(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_cfdi_recibidos ADD fcMoneda varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;
+ALTER TABLE admon_cfdi.ta_pago ADD fcMoneda varchar(20) NULL;
+ALTER TABLE admon_cfdi.ta_cfdi_recibidos ADD fdDescuento DECIMAL(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_cfdi_recibidos ADD fdSubtotal DECIMAL(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_pago ADD fdDescuento DECIMAL(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_pago ADD fdSubtotal DECIMAL(16,6) NULL;
+ALTER TABLE admon_cfdi.ta_items_compra ADD fcNumeroDeIdentificacion varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;
+ALTER TABLE admon_cfdi.ta_pago_items ADD fcMoneda varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;
+
+
+
+INSERT
+    INTO
+    ta_proveedor (fiid,
+    fcnombre,
+    fcrfc,
+    fcRegimenFiscal)
+VALUES(222, 'INDUSTRIAS DOLI, S.A. DE C.V.', 'IDO9011229J9', NULL);
+
+INSERT
+    INTO
+    ta_proveedor (fiid,
+    fcnombre,
+    fcrfc,
+    fcRegimenFiscal)
+VALUES(223, 'COMERCIALIZADORA DE VALOR AGREGADO SA. DE CV', 'CVA9904266T9', NULL);
+
+INSERT
+    INTO
+    ta_proveedor (fiid,
+    fcnombre,
+    fcrfc,
+    fcRegimenFiscal)
+VALUES(224, 'GRUPO LOMA DEL NORTE S.A. DE C.V.', 'GLN000912939', NULL);
+
+
+SELECT @@autocommit;

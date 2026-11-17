@@ -1,5 +1,5 @@
 #Setting java 8
-FROM amazoncorretto:8u352-alpine
+FROM amazoncorretto:17-alpine3.23
 LABEL author=jlpinomoreno@gmail.com
 RUN mkdir /home/admon_cfdi
 RUN mkdir /home/admon_cfdi/resources
